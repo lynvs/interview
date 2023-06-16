@@ -12,7 +12,8 @@
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
         "vlucas/phpdotenv": "^5.5",
-        "smarty/smarty": "^4.3"
+        "smarty/smarty": "^4.3",
+      "ext-intl": "*"
     },
     "autoload": {
         "psr-4": {

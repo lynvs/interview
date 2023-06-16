@@ -29,6 +29,9 @@ final class ShoppingCartItem
     /** @var string */
     public string $productClass;
 
+    /** @var float|int */
+    public float|int $subTotal;
+
     /**
      * @param int $shoppingCartItemId
      * @param int $quantity
@@ -43,6 +46,7 @@ final class ShoppingCartItem
         $this->unitPrice = $unitPrice;
         $this->productName = $productName;
         $this->productClass = $productClass;
+        $this->subTotal = $this->getSubtotal();
     }
 
     /**

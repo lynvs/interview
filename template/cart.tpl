@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Coolblue Shopping Cart</title>
         <style>
@@ -31,40 +31,43 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($this->cart->getLines() as $line): ?>
-                    <tr>
-                        <td>
-                            <?php foreach($line->getItems() as $item): ?>
-                                <?php if ($item->getProductClass() === \Coolblue\Interview\Entity\ShoppingCartItem::PRODUCTCLASS_PHYSICAL): ?>
-                                    <strong><?=$item->getProductName()?></strong><br />
-                                <?php else: ?>
-                                    <?= ucfirst($item->getProductClass()) ?>: <?=$item->getProductName()?><br />
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </td>
-                        <td>
-                            <?php foreach($line->getItems() as $item): ?>
-                                <?php if ($item->getProductClass() === \Coolblue\Interview\Entity\ShoppingCartItem::PRODUCTCLASS_PHYSICAL): ?>
-                                    <strong><?=$item->getQuantity()?></strong><br />
-                                <?php else: ?>
-                                    <?=$item->getQuantity()?><br />
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </td>
-                        <td>
-                            <?php foreach($line->getItems() as $item): ?>
-                                <?php if ($item->getProductClass() === \Coolblue\Interview\Entity\ShoppingCartItem::PRODUCTCLASS_PHYSICAL): ?>
-                                    <strong>&euro; <?=number_format($item->getSubtotal() / 100, 2)?></strong><br />
-                                <?php else: ?>
-                                    &euro; <?=number_format($item->getSubtotal() / 100, 2)?><br />
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+            {foreach $lines as $line}
+                <tr>
+                    <td>
+                        {foreach $line->items as $item}
+                            {if $item->productClass eq getenv('PRODUCTCLASS_PHYSICAL')}
+                                <strong>{$item->ProductName}</strong>
+                                <br />
+                            {else}
+                                {$item->productClass|capitalize}: {$item->productName|capitalize}
+                            {/if}
+                        {/foreach}
+                    </td>
+                    <td>
+                        {foreach $line->items as $item}
+                            {if $item->productClass eq getenv('PRODUCTCLASS_PHYSICAL')}
+                                <strong>{$item->quantity}</strong>
+                                <br />
+                            {else}
+                                {$item->quantity}
+                                <br />
+                            {/if}
+                        {/foreach}
+                    </td>
+                    <td>
+                        {foreach $line->items as $item}
+                            {if $item->productClass eq getenv('PRODUCTCLASS_PHYSICAL')}
+                                <strong>&euro;{($item->subTotal / 100 * 2)|number_format:2}</strong><br />
+                            {else}
+                                &euro;{($item->subTotal / 100 * 2)|number_format:2}
+                                <br />
+                            {/if}
+                        {/foreach}
+                    </td>
+                </tr>
+            {/foreach}
             </tbody>
         </table>
-
-        <strong>Total: &euro; <?=number_format($this->cart->getTotal() / 100, 2)?></strong>
+        <strong>Total: &euro;{($total / 100 * 2)|number_format:2}</strong>
     </body>
 </html>

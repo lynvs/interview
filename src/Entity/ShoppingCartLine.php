@@ -6,7 +6,7 @@ namespace Coolblue\Interview\Entity;
 final class ShoppingCartLine
 {
     /** @var ShoppingCartItem[] */
-    private array $items = [];
+    public array $items = [];
 
     /**
      * @param ShoppingCartItem[] $items
