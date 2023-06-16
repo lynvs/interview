@@ -5,28 +5,15 @@ namespace Coolblue\Interview\Entity;
 
 final class ShoppingCart
 {
-    /** @var int */
-    private $shoppingCartId;
-
     /** @var ShoppingCartLine[] */
-    private $lines = [];
+    public array $lines = [];
 
     /**
-     * @param int $shoppingCartId
      * @param ShoppingCartLine[] $lines
      */
-    public function __construct(int $shoppingCartId, array $lines)
+    public function __construct(array $lines)
     {
-        $this->shoppingCartId = $shoppingCartId;
         array_walk($lines, [$this, 'addLine']);
-    }
-
-    /**
-     * @return int
-     */
-    public function getShoppingCartId(): int
-    {
-        return $this->shoppingCartId;
     }
 
     /**
@@ -55,11 +42,8 @@ final class ShoppingCart
     {
         $total = 0;
 
-        foreach ($this->getLines() as $line)
-        {
-            /** @var ShoppingCartLine $line */
+        foreach ($this->getLines() as $line) {
             foreach ($line->getItems() as $item) {
-                /** @var ShoppingCartItem $item */
                 $total += $item->getSubtotal();
             }
         }

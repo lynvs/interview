@@ -23,12 +23,8 @@ class ShoppingCartRepository extends DatabaseConnection
         $stmt->execute();
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $shoppingCartId = (int) $result['shoppingcartid'];
 
-        return new ShoppingCart(
-            $shoppingCartId,
-            $this->getLines($shoppingCartId)
-        );
+        return new ShoppingCart($this->getLines((int) $result['shoppingcartid']));
     }
 
     /**
@@ -45,13 +41,7 @@ class ShoppingCartRepository extends DatabaseConnection
         $lines = [];
 
         while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $lineId = (int) $result['shoppingcartlineid'];
-            $items = $this->getItems($lineId);
-
-            $lines[] = new ShoppingCartLine(
-                $lineId,
-                $items
-            );
+            $lines[] = new ShoppingCartLine($this->getItems((int) $result['shoppingcartlineid']));
         }
 
         return $lines;

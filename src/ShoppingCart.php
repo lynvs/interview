@@ -30,7 +30,9 @@ class ShoppingCart
     public function render()
     {
         $smarty = new Smarty();
+
         $smarty->assign('lines', $this->cart->getLines());
+        $smarty->assign('total', $this->cart->getTotal());
 
         $smarty->display(__DIR__ . '/../template/cart.tpl');
     }

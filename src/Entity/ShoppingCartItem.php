@@ -15,19 +15,19 @@ final class ShoppingCartItem
     const PRODUCTLCASS_SERVICE = 'service';
 
     /** @var int */
-    protected $shoppingCartItemId;
+    protected int $shoppingCartItemId;
 
     /** @var int */
-    protected $quantity;
+    public int $quantity;
 
     /** @var int */
-    protected $unitPrice;
+    public int $unitPrice;
 
     /** @var string */
-    protected $productName;
+    public string $productName;
 
     /** @var string */
-    protected $productClass;
+    public string $productClass;
 
     /**
      * @param int $shoppingCartItemId
@@ -43,46 +43,6 @@ final class ShoppingCartItem
         $this->unitPrice = $unitPrice;
         $this->productName = $productName;
         $this->productClass = $productClass;
-    }
-
-    /**
-     * @return int
-     */
-    public function getShoppingCartItemId(): int
-    {
-        return $this->shoppingCartItemId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUnitPrice(): int
-    {
-        return $this->unitPrice;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProductName(): string
-    {
-        return $this->productName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProductClass(): string
-    {
-        return $this->productClass;
     }
 
     /**
