@@ -3,20 +3,13 @@ declare(strict_types=1);
 
 namespace Coolblue\Interview\Repository;
 
+use Coolblue\Interview\Core\DatabaseConnection;
 use Coolblue\Interview\Entity\ShoppingCart;
 use Coolblue\Interview\Entity\ShoppingCartItem;
 use Coolblue\Interview\Entity\ShoppingCartLine;
 
-class ShoppingCartRepository
+class ShoppingCartRepository extends DatabaseConnection
 {
-    /** @var \PDO */
-    private $connection;
-
-    public function __construct()
-    {
-        $this->connection = new \PDO("mysql:host=interview_mysql;dbname=coolblue", "interview", "interview");
-    }
-
     /**
      * @param int $shoppingCartId
      * @return ShoppingCart
