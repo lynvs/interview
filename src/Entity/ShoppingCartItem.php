@@ -5,15 +5,6 @@ namespace Coolblue\Interview\Entity;
 
 final class ShoppingCartItem
 {
-    /** @var string */
-    const PRODUCTCLASS_PHYSICAL = 'physical';
-
-    /** @var string */
-    const PRODUCTCLASS_INSURANCE = 'insurance';
-
-    /** @var string */
-    const PRODUCTLCASS_SERVICE = 'service';
-
     /** @var int */
     protected int $shoppingCartItemId;
 
