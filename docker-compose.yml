@@ -1,0 +1,43 @@
+version: '3'
+services:
+  interview_mysql:
+    image: mysql:5.7
+    platform: linux/x86_64
+    container_name: interview_mysql
+    environment:
+      MYSQL_DATABASE: 'coolblue'
+      MYSQL_USER: 'interview'
+      MYSQL_PASSWORD: 'interview'
+      MYSQL_ROOT_PASSWORD: 'secretrootpassword'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./etc:/docker-entrypoint-initdb.d/:ro
+
+  interview_php:
+    container_name: interview_php
+    build: ./docker/php
+    volumes:
+      - ./:/app
+    ports:
+      - '9000:9000'
+
+  interview_composer:
+    image: composer:latest
+    container_name: interview_composer
+    command: composer install
+    volumes:
+      - ./:/app
+
+  interview_nginx:
+    image: nginx:alpine
+    container_name: interview_nginx
+    volumes:
+      - ./:/app
+      - ./docker/nginx/site.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - '8080:80'
+    links:
+      - interview_php
