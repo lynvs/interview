@@ -4,29 +4,34 @@ declare(strict_types=1);
 namespace Coolblue\Interview;
 
 use Coolblue\Interview\Repository\ShoppingCartRepository;
+use Smarty;
+use SmartyException;
 
 class ShoppingCart
 {
-    /** @var \Coolblue\Interview\Entity\ShoppingCart */
-    private $cart;
+    /** @var Entity\ShoppingCart */
+    public Entity\ShoppingCart $cart;
 
     public function __construct()
     {
-        $this->cart = (new ShoppingCartRepository())->getShoppingCart(($_GET["cartid"]) ? $_GET["cartid"] : 1);
+        $cartId = 1;
+
+        if (array_key_exists('cartid', $_GET)) {
+            $cartId = $_GET['cartid'];
+        }
+
+        $this->cart = (new ShoppingCartRepository())->getShoppingCart($cartId);
     }
 
     /**
-     * @return string
+     * Renders Smarty template with cart data
+     * @throws SmartyException
      */
-    public function render(): string
+    public function render()
     {
-        ob_start();
+        $smarty = new Smarty();
+        $smarty->assign('lines', $this->cart->getLines());
 
-        require __DIR__ . '/../template/cart.tpl';
-
-        $result = ob_get_contents();
-        ob_clean();
-
-        return $result;
+        $smarty->display(__DIR__ . '/../template/cart.tpl');
     }
 }
