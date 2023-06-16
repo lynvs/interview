@@ -17,7 +17,7 @@ class ShoppingCart
         $cartId = 1;
 
         if (array_key_exists('cartid', $_GET)) {
-            $cartId = $_GET['cartid'];
+            $cartId = (int) $_GET['cartid'];
         }
 
         $this->cart = (new ShoppingCartRepository())->getShoppingCart($cartId);

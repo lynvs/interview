@@ -7,6 +7,7 @@ use Coolblue\Interview\Core\DatabaseConnection;
 use Coolblue\Interview\Entity\ShoppingCart;
 use Coolblue\Interview\Entity\ShoppingCartItem;
 use Coolblue\Interview\Entity\ShoppingCartLine;
+use PDO;
 
 class ShoppingCartRepository extends DatabaseConnection
 {
@@ -14,13 +15,14 @@ class ShoppingCartRepository extends DatabaseConnection
      * @param int $shoppingCartId
      * @return ShoppingCart
      */
-    public function getShoppingCart($shoppingCartId): ShoppingCart
+    public function getShoppingCart(int $shoppingCartId): ShoppingCart
     {
-        $stmt = $this->connection->prepare("select * from shoppingcart where shoppingcartid = $shoppingCartId");
-
+        $selectStatement = "select * from shoppingcart where shoppingcartid = :shoppingCartId";
+        $stmt = $this->connection->prepare($selectStatement);
+        $stmt->bindParam(':shoppingCartId', $shoppingCartId);
         $stmt->execute();
 
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $shoppingCartId = (int) $result['shoppingcartid'];
 
         return new ShoppingCart(
@@ -35,16 +37,14 @@ class ShoppingCartRepository extends DatabaseConnection
      */
     private function getLines(int $shoppingCartId): array
     {
-        $stmt = $this->connection->prepare("select * from shoppingcart_line where shoppingcartid = :shoppingCartId");
-
-        $stmt->execute([
-            'shoppingCartId' => $shoppingCartId
-        ]);
+        $selectStatement = "select * from shoppingcart_line where shoppingcartid = :shoppingCartId";
+        $stmt = $this->connection->prepare($selectStatement);
+        $stmt->bindParam(':shoppingCartId', $shoppingCartId);
+        $stmt->execute();
 
         $lines = [];
 
-        while ($result = $stmt->fetch(\PDO::FETCH_ASSOC))
-        {
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $lineId = (int) $result['shoppingcartlineid'];
             $items = $this->getItems($lineId);
 
@@ -63,16 +63,14 @@ class ShoppingCartRepository extends DatabaseConnection
      */
     private function getItems(int $shoppingCartLineId): array
     {
-        $stmt = $this->connection->prepare("select * from shoppingcart_item where shoppingcartlineid = :shoppingCartLineId");
-
-        $stmt->execute([
-            'shoppingCartLineId' => $shoppingCartLineId
-        ]);
+        $selectStatement = "select * from shoppingcart_item where shoppingcartlineid = :shoppingCartLineId";
+        $stmt = $this->connection->prepare($selectStatement);
+        $stmt->bindParam(':shoppingCartLineId', $shoppingCartLineId);
+        $stmt->execute();
 
         $items = [];
 
-        while ($result = $stmt->fetch(\PDO::FETCH_ASSOC))
-        {
+        while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $items[] = new ShoppingCartItem(
                 (int) $result['shoppingcartitemid'],
                 (int) $result['quantity'],
